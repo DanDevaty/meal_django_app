@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – Smart Meal App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #a7fce1, #fff4db);
+      color: #0a0a0a;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .dashboard {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .section h2 {
+      font-size: 1.6em;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #00db9e;
+      display: inline-block;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .tag {
+      display: inline-block;
+      background: #00db9e;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.9em;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    form {
+      margin-top: 16px;
+    }
+    input, textarea, select {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      width: 100%;
+      font-size: 1em;
+    }
+    button {
+      padding: 12px 24px;
+      background: linear-gradient(90deg, #00db9e, #00c48a);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: transform 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+    .footer a {
+      color: #00c48a;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobilní responzivita */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      .dashboard {
+        padding: 20px;
+        border-radius: 16px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      .section h2 {
+        font-size: 1.4em;
+      }
+      button, input, textarea, select {
+        font-size: 1em;
+      }
+    }
+  </style>
+  <script>
+    function toggleForm(id) {
+      const form = document.getElementById(id);
+      form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+  </script>
+</head>
+<body>
+
+<div class="dashboard">
+  <h1>👋 Ahoj, {{ user.first_name }}!</h1>
+
+  <!-- 👤 Osobní profil -->
+  <div class="section">
+    <h2>👤 Osobní profil</h2>
+    <ul>
+      <li><strong>Email:</strong> {{ user.email }}</li>
+      <li><strong>Jméno:</strong> {{ user.first_name }} {{ user.last_name }}</li>
+      <li><strong>Datum narození:</strong> {{ user.date_of_birth }}</li>
+      <li><strong>Pohlaví:</strong> {{ user.gender|capfirst }}</li>
+      <li><strong>Výška:</strong> {{ user.height_cm }} cm</li>
+      <li><strong>Váha:</strong> {{ user.weight_kg }} kg</li>
+      <li><strong>Kalorie/den:</strong> {{ user.daily_calorie_goal }} kcal</li>
+      <li><strong>Stravovací preference:</strong> {{ user.dietary_preferences }}</li>
+    </ul>
+    <form method="get" action="{% url 'edit_profile' %}">
+      <button type="submit">✏️ Změnit profil</button>
+    </form>
+  </div>
+
+  <!-- 🍽️ Kalorický příjem -->
+<div class="section">
+  <h2>🍽️ Kalorický příjem</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <label for="food_name">Jídlo:</label>
+  <input type="text" name="food_name" id="food_name" required>
+
+  <label for="calories">Kalorie:</label>
+  <input type="number" name="calories" id="calories" required min="1">
+
+  <button type="submit" name="add_meal">✅ Přidat jídlo</button>
+</form>
+
+  {% if meal_form.errors %}
+    <div class="alert alert-danger">
+        {{ meal_form.errors }}
+    </div>
+  {% endif %}
+
+  <!-- Historie jídla -->
+  <h3 style="margin-top: 30px;">📋 Historie jídla</h3>
+  {% if user.meals.exists %}
+    <ul>
+      {% for meal in user.meals.all %}
+        <li>{{ meal.name }} – {{ meal.calories }} kcal ({{ meal.date|date:"d.m.Y" }})</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Zatím žádné jídlo není zaznamenané.</p>
+  {% endif %}
+
+  <!-- Graf -->
+  <h3 style="margin-top: 30px;">📊 Týdenní přehled</h3>
+
+  <canvas id="calorieChart" width="400" height="200"></canvas>
+
+  <!-- JSON data pro graf -->
+  {{ calorie_chart_labels|json_script:"chart-labels" }}
+  {{ calorie_chart_data|json_script:"chart-data" }}
+
+</div>
+
+
+
+  <!-- 🧊 Lednice -->
+  <div class="section">
+  <h2>🧊 Produkty v lednici</h2>
+  {% if fridge_items %}
+    <ul>
+      {% for item in fridge_items %}
+        <li>
+          {{ item.food.name }} (exp: {{ item.expiration_date }})
+          <form method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="delete_food" value="{{ item.id }}">
+            <button type="submit" style="background:none;border:none;color:red;font-size:1.2em;">🗑️</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>Lednice je prázdná 🥶</p>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <label for="existing_food_id"><strong>Vybrat uložený produkt:</strong></label>
+      <select name="existing_food_id" id="existing_food_id" required>
+        {% for food in all_foods %}
+          <option value="{{ food.id }}">{{ food.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="existing_expiration_date" style="margin-top: 10px;">Datum spotřeby:</label>
+      <input type="date" name="existing_expiration_date" id="existing_expiration_date" required>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+        <button type="submit" name="add_existing_food" style="background: #00c48a;">✅ Přidat do lednice</button>
+        <button type="button" onclick="toggleForm('foodForm')" style="background: #00aaff;">➕ Přidat nový produkt</button>
+      </div>
+    </form>
+
+    <form method="post" id="foodForm" style="display:none; margin-top: 20px;">
+      {% csrf_token %}
+      <label for="id_name">Název:</label>
+      <input type="text" name="name" id="id_name" required>
+      <label for="id_expiration_date">Datum spotřeby:</label>
+      <input type="date" name="expiration_date" id="id_expiration_date" required>
+      <button type="submit" name="add_food_direct" style="margin-top: 10px;">✅ Uložit a přidat</button>
+    </form>
+  </div>
+
+  <!-- ❗ Alergie -->
+  <div class="section">
+    <h2>❗ Alergie</h2>
+    {% if user.allergies.exists %}
+      <ul>
+        {% for allergy in user.allergies.all %}
+          <li>
+            {{ allergy.name }}{% if allergy.addDifAllergies %} – {{ allergy.addDifAllergies }}{% endif %}
+            <form method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="delete_allergy" value="{{ allergy.id }}">
+              <button type="submit" style="background:none;border:none;color:red;font-size:1.2em;">🗑️</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Žádné alergie 🙌</p>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <label for="ChoiceField">Známa alergie:</label><br>
+      <select name="name" id="allergy_choice">
+        <option value="">-- Vybrat --</option>
+        {% for value, label in list_of_allergies %}
+          <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select><br><br>
+      <label for="addDifAllergies">Jiná alergie:</label><br>
+      <input type="text" name="addDifAllergies" id="addDifAllergies" placeholder=""><br><br>
+      <button type="submit" name="save_allergy">✅ Uložit</button>
+    </form>
+  </div>
+
+  <!-- 📖 Recepty -->
+  <div class="section">
+    <h2>📖 Moje recepty</h2>
+    {% if user.recipe_set.all %}
+      <ul>
+        {% for recipe in user.recipe_set.all %}
+          <li>
+            <a href="{% url 'recipe_detail' recipe.pk %}">
+              {{ recipe.name }} ({{ recipe.category }})
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Zatím žádné recepty 🍲</p>
+    {% endif %}
+    <button onclick="toggleForm('recipeForm')">➕ Přidat recept</button>
+    <form method="post" id="recipeForm" style="display:none;">
+      {% csrf_token %}
+      {{ recipe_form.as_p }}
+      <button type="submit" name="add_recipe">✅ Uložit</button>
+    </form>
+  </div>
+
+  <!-- 🤖 AI asistent (Gemini) -->
+  <div class="section">
+    <h2>🤖 AI Asistent (Gemini 2.5)</h2>
+    <textarea id="ai-question" placeholder="Zeptej se na cokoliv..." rows="4"></textarea>
+    <button onclick="askGemini()" style="margin-top: 10px;">🧠 Odeslat</button>
+
+<div id="ai-response" style="margin-top: 20px; background: #f0f0f0; padding: 15px; border-left: 4px solid #00db9e; display: none;">
+  <strong>Odpověď:</strong>
+  <p id="ai-answer" style="white-space: pre-wrap;"></p>
+  <button onclick="saveRecipe()" id="save-ai-recipe" style="background: #00c48a; color: white; margin-top: 10px; display: none;">💾 Uložit recept</button>
+  <button onclick="clearAI()" style="background: red; color: white; margin-top: 10px;">❌ Smazat odpověď</button>
+</div>
+
+  </div>
+  <!-- Předpřipravené prompty -->
+<div style="margin-bottom: 10px;">
+  <strong>💡 Předpřipravené dotazy:</strong><br>
+  <button onclick="fillPrompt('Vymysli zajímavý vegetariánský recept')">🥗 Vymysli zajímavý recept</button>
+  <button onclick="fillPrompt('Navrhni recept z brambor a sýra')">🧀 Z brambor a sýra</button>
+</div>
+
+
+  <div class="footer">
+    <a href="{% url 'logout' %}">Odhlásit se</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script>
+function fillPrompt(text) {
+  document.getElementById("ai-question").value = text;
+}
+
+async function askGemini() {
+  const prompt = document.getElementById("ai-question").value.trim();
+  const answerDiv = document.getElementById("ai-answer");
+  const responseBlock = document.getElementById("ai-response");
+  const saveBtn = document.getElementById("save-ai-recipe");
+
+  if (!prompt) {
+    answerDiv.innerHTML = "Prosím napiš otázku.";
+    responseBlock.style.display = "block";
+    return;
+  }
+
+  answerDiv.innerHTML = "🔄 Načítám odpověď...";
+  responseBlock.style.display = "block";
+
+  try {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer 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",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "google/gemma-3-1b-it:free",
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    if (data.choices && data.choices.length > 0) {
+      const answer = data.choices[0].message.content;
+      answerDiv.innerText = answer;
+      saveBtn.style.display = "inline-block"; // zobraz tlačítko
+    } else if (data.error) {
+      answerDiv.innerHTML = "❌ Chyba z API: " + data.error.message;
+    } else {
+      answerDiv.innerHTML = "❌ Neznámá chyba nebo prázdná odpověď.";
+    }
+  } catch (error) {
+    answerDiv.innerHTML = "❌ Chyba připojení: " + error.message;
+  }
+}
+
+function clearAI() {
+  document.getElementById("ai-answer").innerHTML = "";
+  document.getElementById("ai-response").style.display = "none";
+  document.getElementById("save-ai-recipe").style.display = "none";
+}
+
+function saveRecipe() {
+  const content = document.getElementById("ai-answer").innerText;
+  fetch('/api/save-ai-recipe/', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ recipe_text: content })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("✅ Recept uložen!");
+      clearAI();
+    } else {
+      alert("❌ Chyba při ukládání.");
+    }
+  });
+}
+
+// Pomocná funkce pro CSRF
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const trimmed = cookie.trim();
+      if (trimmed.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+document.addEventListener('DOMContentLoaded', function () {
+  const chartLabels = JSON.parse(document.getElementById('chart-labels').textContent);
+  const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+  const ctx = document.getElementById('calorieChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: 'Přijaté kalorie',
+        data: chartData,
+        backgroundColor: '#00c48a',
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Kalorie (kcal)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Den v týdnu'
+          }
+        }
+      }
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>

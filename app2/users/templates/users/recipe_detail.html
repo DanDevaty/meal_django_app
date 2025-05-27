@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ recipe.name }} – Smart Meal App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #fffaf3;
+      color: #1a1a1a;
+      padding: 40px 20px;
+    }
+
+    .recipe-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #00a67e;
+    }
+
+    .meta {
+      font-size: 1em;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section strong {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .section p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      color: #00a67e;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #007a5b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="recipe-wrapper">
+    <h1>{{ recipe.name }}</h1>
+    <div class="meta">
+      Kategorie: {{ recipe.category }}
+    </div>
+
+    <div class="section">
+      <strong>Popis</strong>
+      <p>{{ recipe.description }}</p>
+    </div>
+
+    <div class="section">
+      <strong>Postup</strong>
+      <p>{{ recipe.instructions }}</p>
+    </div>
+
+    <div class="section">
+      <strong>Doba přípravy</strong>
+      <p>{{ recipe.formatted_preparation_time }}</p>
+    </div>
+
+    <div class="section">
+      <strong>Počet porcí</strong>
+      <p>{{ recipe.servings }}</p>
+    </div>
+
+    <a class="back-link" href="{% url 'profile' %}">← Zpět na seznam receptů</a>
+  </div>
+
+</body>
+</html>
