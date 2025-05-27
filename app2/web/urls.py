@@ -12,7 +12,5 @@ urlpatterns = [
     path('shoppingList/', include('shoppingList.urls')),
     path('accounts/', include('allauth.urls')),
     path('api/user/', include('users.api_urls')),
-    path('api/fridge/', include('fridge.api_urls')),
-
 ]
 
