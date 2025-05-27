@@ -1,0 +1,10 @@
+django==4.2
+django-allauth
+requests
+PyJWT
+cryptography
+djangorestframework
+djangorestframework-simplejwt
+openai
+Pillow
+django-cors-headers
