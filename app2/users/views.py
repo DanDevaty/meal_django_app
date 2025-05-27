@@ -12,7 +12,7 @@ from fridge.models import Fridge, Food, FridgeItem
 from shoppingList.models import ShoppingList
 from alergies.models import Allergy
 from recipes.models import Recipe
-from ingredients.models import Ingredience
+from ingredients.models import Ingredient
 
 # FORMULÁŘE Z OSTATNÍCH APLIKACÍ
 from fridge.forms import FoodForm
@@ -169,7 +169,7 @@ def profile_view(request):
             if recipe_form.is_valid():
                 recipe = recipe_form.save(commit=False)
                 recipe.created_by = user
-                recipe.made_with = Ingredience.objects.first()
+                recipe.made_with = Ingredient.objects.first()
                 recipe.save()
                 return redirect('profile')
         

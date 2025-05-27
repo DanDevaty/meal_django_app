@@ -1,9 +1,6 @@
 # Ignoruj tajnosti
 *.env
 
-# Ignoruj SQLite databázi
-db.sqlite3
-
 # __pycache__ a compiled Python soubory
 __pycache__/
 *.py[cod]
