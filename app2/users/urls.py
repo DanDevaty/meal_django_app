@@ -1,3 +1,4 @@
+app_name = 'users'
 from django.urls import path, include
 from .views import register_view, login_view, logout_view, profile_view
 from users.views import google_login_redirect, edit_profile
