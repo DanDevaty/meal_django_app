@@ -28,6 +28,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     height_cm = models.PositiveIntegerField(null=True, blank=True)
     weight_kg = models.FloatField(null=True, blank=True)
     daily_calorie_goal = models.PositiveIntegerField(null=True, blank=True)
+    daily_protein_goal = models.PositiveIntegerField(null=True, blank=True)
     dietary_preferences = models.TextField(blank=True, help_text="e.g. vegetarian, gluten-free, etc.")
     allergies = models.ManyToManyField("alergies.Allergy", blank=True, related_name='profiles')    
 

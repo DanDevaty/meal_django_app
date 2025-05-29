@@ -9,14 +9,14 @@ from .forms import EmailLoginForm
 
 # MODELY Z OSTATNÍCH APLIKACÍ
 from fridge.models import Fridge, Food, FridgeItem
-from shoppingList.models import ShoppingList
+from shoppingList.models import ShoppingList, ShoppingListItem
 from alergies.models import Allergy
 from recipes.models import Recipe
 from ingredients.models import Ingredient
 
 # FORMULÁŘE Z OSTATNÍCH APLIKACÍ
 from fridge.forms import FoodForm
-from shoppingList.forms import ShoppingListForm
+from shoppingList.forms import ShoppingListItemForm
 from alergies.forms import UserProfileForm
 from recipes.forms import RecipeForm
 from users.forms import AllergyForm
@@ -69,7 +69,7 @@ def profile_view(request):
     profile = user
 
     food_form = FoodForm()
-    shopping_form = ShoppingListForm()
+    shopping_form = ShoppingListItemForm()
     allergy_form = UserProfileForm(instance=profile)
     recipe_form = RecipeForm()
     meal_form = MealForm()
@@ -127,7 +127,7 @@ def profile_view(request):
             return redirect('profile')
 
         elif 'add_item' in request.POST:
-            shopping_form = ShoppingListForm(request.POST)
+            shopping_form = ShoppingListItemForm(request.POST)
             if shopping_form.is_valid():
                 item = shopping_form.save(commit=False)
                 item.user = user
