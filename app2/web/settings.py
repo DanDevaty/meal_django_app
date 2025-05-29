@@ -1,4 +1,5 @@
 from pathlib import Path
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -126,14 +127,19 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # ✅ DJANGO REST FRAMEWORK + JWT
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
 
+
+env = environ.Env(
+    OPENAI_API_KEY=(str, '')
+)
+
+PERPLEXITY_API_KEY = env('OPENAI_API_KEY')
+
+
 INSTALLED_APPS += ['corsheaders']
 MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
-CORS_ALLOW_ALL_ORIGINS = True  # pro testování, v produkci omez na konkrétní domény!
+CORS_ALLOW_ALL_ORIGINS = True 
