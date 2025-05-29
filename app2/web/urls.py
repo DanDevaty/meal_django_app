@@ -9,7 +9,7 @@ urlpatterns = [
     path('fridge/', include('fridge.urls')),
     path('', include('hello.urls')),
     path('users/', include(('users.urls', 'users'), namespace='users')),
-    path('shoppingList/', include('shoppingList.urls')),
+    path('shoppinglist/', include('shoppingList.urls')),
     path('accounts/', include('allauth.urls')),
     path('api/user/', include('users.api_urls')),
 ]
