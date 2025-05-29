@@ -13,4 +13,5 @@ urlpatterns = [
     path("edit_profile/", edit_profile, name="edit_profile"),
     path('recipes/', include(('recipes.urls', 'recipes'))),
     path('api/', include('users.api_urls')),
+    path('api/auth/', include('users.api_auth_urls')),
 ]
