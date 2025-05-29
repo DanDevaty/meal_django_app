@@ -1,7 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from .api_views import Ingredients_view_set
-from rest_framework import serializers
 
 
 router = DefaultRouter()
