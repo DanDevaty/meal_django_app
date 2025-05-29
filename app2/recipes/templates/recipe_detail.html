@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ recipe.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 6px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            margin: 0.5rem 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 1rem;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ recipe.name }}</h1>
+        <p><strong>Category:</strong> {{ recipe.category }}</p>
+        <p><strong>Preparation time:</strong> {{ recipe.formatted_preparation_time }}</p>
+        <p><strong>Servings:</strong> {{ recipe.servings }}</p>
+        <p><strong>Description:</strong><br>{{ recipe.description }}</p>
+        <p><strong>Instructions:</strong><br>{{ recipe.instructions }}</p>
+
+        <a href="{% url 'recipes:recipe_update' recipe.pk %}" class="btn btn-primary">Upravit</a>
+        <a href="{% url 'recipes:recipes_list' %}">← Back to list</a>
+    </div>
+</body>
+</html>

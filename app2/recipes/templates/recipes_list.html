@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seznam receptů – Smart Meal App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #a7fce1, #fff4db);
+      color: #0a0a0a;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    ul.recipes-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.recipes-list li {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e3e3e3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1em;
+      transition: background-color 0.2s ease;
+    }
+    ul.recipes-list li:hover {
+      background-color: #f0f9f5;
+    }
+    ul.recipes-list li a {
+      text-decoration: none;
+      color: #00c48a;
+      font-weight: 600;
+      flex-grow: 1;
+    }
+    ul.recipes-list li span.time {
+      color: #666;
+      font-size: 0.95em;
+      margin-left: 15px;
+      white-space: nowrap;
+      font-weight: 400;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #00c48a;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    .back-link:hover {
+      color: #008c68;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      .container {
+        padding: 20px 15px;
+        border-radius: 16px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      ul.recipes-list li {
+        font-size: 1em;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      ul.recipes-list li span.time {
+        margin-left: 0;
+        margin-top: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="{% url 'users:profile' %}" class="back-link">← Zpět na dashboard</a>
+    <h1>📖 Seznam receptů</h1>
+    {% if recipes %}
+      <ul class="recipes-list">
+        {% for recipe in recipes %}
+          <li>
+            <a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+            <span class="time">{{ recipe.formatted_preparation_time }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Žádné recepty nebyly nalezeny.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
