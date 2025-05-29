@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Chat</title>
+</head>
+<body>
+    <h1>AI Chat</h1>
+    <form id="chat-form">
+        <input type="text" id="message" placeholder="Napiš zprávu..." required>
+        <button type="submit">Odeslat</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const message = document.getElementById('message').value;
+
+            const response = await fetch('/api/fridge/ai/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+            document.getElementById('response').innerText = data.response || data.error;
+        });
+    </script>
+</body>
+</html>

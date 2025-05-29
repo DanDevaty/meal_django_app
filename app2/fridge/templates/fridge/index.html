@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Moje lednice – Smart Meal App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #a7fce1, #fff4db);
+      color: #0a0a0a;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 24px;
+    }
+
+    .user {
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 0.95em;
+    }
+
+    .food {
+      border: 1px solid #eee;
+      padding: 18px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      background: #f7f7f7;
+    }
+
+    .allergen {
+      color: #d8000c;
+      font-weight: bold;
+      margin-top: 8px;
+      display: block;
+    }
+
+    .food-name {
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+
+    form {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 1em;
+      background: linear-gradient(90deg, #00db9e, #00c48a);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(0, 219, 158, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .section-title {
+      margin-top: 40px;
+      margin-bottom: 12px;
+      font-size: 1.4em;
+      border-bottom: 2px solid #00c48a;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="user">
+      Přihlášený uživatel: {{ user.email }}
+    </div>
+
+    <h1>🧊 Moje lednice</h1>
+
+    {% if foods %}
+      {% for food in foods %}
+        <div class="food">
+          <div class="food-name">{{ food.name }}</div>
+          <em>Spotřebujte do: {{ food.expiration_date }}</em>
+          {% if food.has_allergen %}
+            <span class="allergen">⚠ Obsahuje alergen!</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Lednice je prázdná.</p>
+    {% endif %}
+
+    <div class="section-title">➕ Přidat novou potravinu</div>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Přidat do lednice</button>
+    </form>
+  </div>
+
+</body>
+</html>
