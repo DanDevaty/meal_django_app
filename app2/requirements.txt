@@ -8,3 +8,5 @@ djangorestframework-simplejwt
 openai
 Pillow
 django-cors-headers
+django-environ
+markdown
