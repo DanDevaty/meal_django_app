@@ -40,7 +40,7 @@ def login_view(request):
         form = EmailLoginForm(request.POST)
         if form.is_valid():
             login(request, form.cleaned_data["user"])
-            return redirect("profile")  # nebo kamkoliv
+            return redirect("users:profile")  # nebo kamkoliv
     else:
         form = EmailLoginForm()
     return render(request, "users/login.html", {"form": form})
@@ -212,10 +212,3 @@ def edit_profile(request):
     else:
         form = ProfileForm(instance=user)
     return render(request, 'users/edit_profile.html', {'form': form})
-
-# 📄 Detail receptu
-
-def recipe_detail(request, pk):
-    recipe = get_object_or_404(Recipe, pk=pk)
-    return render(request, 'users/recipe_detail.html', {'recipe': recipe})
-

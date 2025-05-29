@@ -135,7 +135,7 @@
       <li><strong>Kalorie/den:</strong> {{ user.daily_calorie_goal }} kcal</li>
       <li><strong>Stravovací preference:</strong> {{ user.dietary_preferences }}</li>
     </ul>
-    <form method="get" action="{% url 'edit_profile' %}">
+    <form method="get" action="{% url 'users:edit_profile' %}">
       <button type="submit">✏️ Změnit profil</button>
     </form>
   </div>
@@ -270,27 +270,31 @@
 
   <!-- 📖 Recepty -->
   <div class="section">
-    <h2>📖 Moje recepty</h2>
-    {% if user.recipe_set.all %}
-      <ul>
-        {% for recipe in user.recipe_set.all %}
-          <li>
-            <a href="{% url 'recipe_detail' recipe.pk %}">
-              {{ recipe.name }} ({{ recipe.category }})
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>Zatím žádné recepty 🍲</p>
-    {% endif %}
-    <button onclick="toggleForm('recipeForm')">➕ Přidat recept</button>
-    <form method="post" id="recipeForm" style="display:none;">
-      {% csrf_token %}
-      {{ recipe_form.as_p }}
-      <button type="submit" name="add_recipe">✅ Uložit</button>
-    </form>
+  <h2>📖 Moje recepty</h2>
+  {% if user.recipe_set.all %}
+    <ul>
+      {% for recipe in user.recipe_set.all %}
+        <li>
+          <a href="{% url 'recipes:recipe_detail' recipe.pk %}">
+            {{ recipe.name }} ({{ recipe.category }})
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Zatím žádné recepty 🍲</p>
+  {% endif %}
+
+  <div style="margin-top: 10px;">
+    <a href="{% url 'recipes:recipe_create' %}">
+      <button style="background: #00aaff;">➕ Přidat nový recept</button>
+    </a>
+    <a href="{% url 'recipes:recipes_list' %}">
+      <button style="background: #00c48a;">📚 Zobrazit všechny recepty</button>
+    </a>
   </div>
+</div>
+
 
   <!-- 🤖 AI asistent (Gemini) -->
   <div class="section">
@@ -315,7 +319,7 @@
 
 
   <div class="footer">
-    <a href="{% url 'logout' %}">Odhlásit se</a>
+    <a href="{% url 'users:logout' %}">Odhlásit se</a>
   </div>
 </div>
 

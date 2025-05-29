@@ -1,7 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from .views import register_view, login_view, logout_view, profile_view
-from users import views
-from users.views import google_login_redirect
+from users.views import google_login_redirect, edit_profile
 
 
 urlpatterns = [
@@ -10,9 +9,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('profile/', profile_view, name='profile'),
-    path("edit_profile/", views.edit_profile, name="edit_profile"),
-    path('<int:pk>/', views.recipe_detail, name='recipe_detail'),
-    
-    
-
+    path("edit_profile/", edit_profile, name="edit_profile"),
+    path('recipes/', include(('recipes.urls', 'recipes'))),
+    path('api/', include('users.api_urls')),
 ]

@@ -1,7 +1,12 @@
-from django.urls import path
-from .api_views import CustomTokenObtainPairView, UserDetailAPIView
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+from .api_views import Users_view_set
+from rest_framework import serializers
+
+
+router = DefaultRouter()
+router.register(r'users', Users_view_set)
 
 urlpatterns = [
-    path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('me/', UserDetailAPIView.as_view(), name='user_detail'),
+    path('', include(router.urls)),
 ]
