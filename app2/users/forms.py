@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from alergies.models import Allergy
-from .models import CustomUser, Meal
+from .models import CustomUser
 from fridge.models import FridgeItem
 from django.contrib.auth import authenticate
 
@@ -74,5 +74,5 @@ class AllergyForm(forms.Form):
 class MealForm(forms.ModelForm):
     class Meta:
         model = FridgeItem
-        fields = ['food', 'expiration_date']
+        fields = '__all__'
 
