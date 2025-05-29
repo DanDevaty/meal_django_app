@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Smart Meal App - Plan smarter, eat better with AI-driven meal planning.">
+  <title>Smart Meal App 🥥</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff8f0;
+      --bg2: #e0fff4;
+      --text: #121212;
+      --accent: #00db9e;
+      --accent-dark: #00c48a;
+      --card: #ffffff;
+      --radius: 24px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    .hero-header {
+      background: linear-gradient(135deg, #a7fce1, #fff4db);
+      padding: 100px 20px 80px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 3.4em;
+      font-weight: 700;
+      color: #0a0a0a;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeUp 1s ease-out forwards;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25em;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      color: #333;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeUp 1s ease-out forwards;
+      animation-delay: 0.3s;
+    }
+
+.hero-btn {
+  font-size: 1em;
+  padding: 16px 36px;
+  background: linear-gradient(90deg, #00db9e, #00c48a);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0, 219, 158, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  animation: pulse 2s ease-in-out infinite;
+  text-decoration: none; /* 🧨 TADY! Zruší podtržení */
+}
+
+
+    .hero-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .wave-divider {
+      height: 100px;
+      background: url('data:image/svg+xml;utf8,<svg width="100%" height="100" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23fff8f0" d="M0,192L60,197.3C120,203,240,213,360,224C480,235,600,245,720,218.7C840,192,960,128,1080,122.7C1200,117,1320,171,1380,197.3L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"/></svg>') no-repeat;
+      background-size: cover;
+      margin-top: -1px;
+    }
+
+    section {
+      padding: 100px 24px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: 2.8em;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 60px;
+      color: #101010;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 42px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      padding: 32px;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+      transform: translateY(50px);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+
+    .feature-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card h3 {
+      font-size: 1.3em;
+      color: var(--accent-dark);
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 1em;
+      color: #222;
+    }
+
+    .faq-section {
+      background: var(--bg2);
+      border-radius: 48px;
+      padding: 80px 30px;
+      margin-top: 100px;
+    }
+
+    .faq-item {
+      background: #fff;
+      margin: 0 auto 30px;
+      max-width: 800px;
+      padding: 24px 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 1s ease-out;
+    }
+
+    .faq-item h4 {
+      color: var(--accent-dark);
+      margin-bottom: 10px;
+    }
+
+    .faq-item p {
+      color: #333;
+    }
+
+    footer {
+      background: #e4fef4;
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 0.95em;
+      color: #333;
+      animation: fadeIn 1s ease-out;
+    }
+
+    /* Animace */
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      } to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 219, 158, 0.4);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 12px rgba(0, 219, 158, 0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 2.2em;
+      }
+
+      .section-title {
+        font-size: 2em;
+      }
+
+      .hero-btn {
+        padding: 14px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero-header">
+    <h1 class="hero-title">Smart Meal App 🥥✨</h1>
+    <p class="hero-subtitle">Plan smarter, eat better. Let AI and good taste do the heavy lifting. 🌮🍇🥑</p>
+    <a href="{% url 'users:login' %}" class="hero-btn">🍍 Start Now</a>
+
+
+
+  </header>
+
+  <div class="wave-divider"></div>
+
+  <section>
+    <h2 class="section-title">Your Chaos-Controlled Kitchen 🌀</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><h3>📅 Weekly Planning</h3><p>Plan your meals or let AI surprise you. You’re in charge (mostly).</p></div>
+      <div class="feature-card"><h3>📸 Fridge Scanner</h3><p>Snap a photo. Let us read your fridge like a recipe psychic. 🔮</p></div>
+      <div class="feature-card"><h3>🤖 Smart Recipes</h3><p>Custom recipes based on your stuff. Cooking just got clever.</p></div>
+      <div class="feature-card"><h3>🛒 Auto Shopping List</h3><p>No more guessing. We build your grocery list for you.</p></div>
+      <div class="feature-card"><h3>⚠️ Allergy Filters</h3><p>Tell us once, and we’ll filter every recipe forever.</p></div>
+      <div class="feature-card"><h3>📴 Works Offline</h3><p>No signal? No sweat. Your data stays with you.</p></div>
+      <div class="feature-card"><h3>🥗 Nutrition Info</h3><p>Calories and macros right where you need them.</p></div>
+      <div class="feature-card"><h3>🖨️ PDF Export</h3><p>Print your plan and stick it on the fridge like the good old days.</p></div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2 class="section-title">FAQs ❓</h2>
+    <div class="faq-item">
+      <h4>💸 Is it free?</h4>
+      <p>Yes, there's a free tier and a demo mode to try it out without commitment.</p>
+    </div>
+    <div class="faq-item">
+      <h4>📴 Does it work offline?</h4>
+      <p>Absolutely. Core features like your plans and shopping list work offline.</p>
+    </div>
+    <div class="faq-item">
+      <h4>🔐 What happens to my data?</h4>
+      <p>Your data is private and stays on your device. We don’t sell or share it.</p>
+    </div>
+    <div class="faq-item">
+      <h4>🥜 How does it detect allergens?</h4>
+      <p>You can set allergens in your profile. Recipes are automatically filtered.</p>
+    </div>
+  </section>
+
+  <footer>
+    Built with chaos & coconuts 🥥 by Smart Meal Team — © 2025
+  </footer>
+
+  <script>
+    const cards = document.querySelectorAll('.feature-card');
+    const revealOnScroll = () => {
+      const trigger = window.innerHeight * 0.9;
+      cards.forEach(card => {
+        const top = card.getBoundingClientRect().top;
+        if (top < trigger) {
+          card.classList.add('visible');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
+</body>
+</html>
