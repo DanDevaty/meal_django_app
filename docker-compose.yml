@@ -4,7 +4,7 @@ services:
       - ./app2:/app2
     build: .
     env_file:
-      - key.env
+      - .env
       - sec_key.env
     ports:
       - "8000:8000"
