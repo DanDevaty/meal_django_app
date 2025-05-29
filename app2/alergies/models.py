@@ -31,7 +31,6 @@ class Allergy(models.Model):
 
     ]
 
-    #user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="allergies", null=True)
     name = models.CharField(_('Name'), max_length=100, choices=ListOfAllergies, unique=True)
     addDifAllergies = models.CharField(_('Add different allergy'), max_length=100, default=None, blank=True, null=True)
 
