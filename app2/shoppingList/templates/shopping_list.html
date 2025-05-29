@@ -1,0 +1,13 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Seznam nákupů</h2>
+  <ul>
+    {% for item in shopping_lists %}
+      <li>{{ item.ingredient.name }} ({{ item.quantity }})</li>
+    {% empty %}
+      <li>Váš seznam je prázdný.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'add_to_shopping_list' %}">Přidat položku</a>
+{% endblock %}
