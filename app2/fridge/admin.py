@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Food, Fridge
+from .models import FridgeItem
 
-admin.site.register(Food)
-admin.site.register(Fridge)
+admin.site.register(FridgeItem)

@@ -1,7 +1,7 @@
-from django.urls import path
-from .views import index, ai_chat_page
+from django.urls import path, include
+from .views import index
 
 urlpatterns = [
-    path('', index, name='fridge_home'),  # ✅ přidáno jméno!
-    path('chat/', ai_chat_page, name='ai_chat_page'),
+    path('', index, name='fridge_home'),
+    path('api/', include('fridge.api_urls'))
 ]
